@@ -50,12 +50,6 @@ import org.openqa.selenium.io.TemporaryFilesystem;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
-
-//import org.openqa.selenium.safari.SafariDriver;
-
-//import org.openqa.selenium.phantomjs.PhantomJSDriver;
-//import org.openqa.selenium.phantomjs.PhantomJSDriverService;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
