@@ -31,6 +31,7 @@ import org.apache.hadoop.fs.FileSystem;
 import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IOUtils;
 
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.Capabilities;
 import org.openqa.selenium.OutputType;
@@ -50,6 +51,7 @@ import org.openqa.selenium.io.TemporaryFilesystem;
 
 import org.openqa.selenium.remote.DesiredCapabilities;
 import org.openqa.selenium.remote.RemoteWebDriver;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -241,6 +243,93 @@ public class HttpWebClient {
       boolean enableHeadlessMode) {
     return createFirefoxRemoteWebDriver(seleniumHubUrl, enableHeadlessMode);
   }
+
+  public static WebDriver getDriverForPage(String url, Configuration conf) {
+    WebDriver driver = null;
+    try{
+	    String driverType  = conf.get("selenium.driver", "firefox");
+	    switch (driverType) {
+		    case "remote":
+			    String seleniumHubHost = conf.get("selenium.hub.host", "localhost");
+			    int seleniumHubPort = Integer.parseInt(conf.get("selenium.hub.port", "4444"));
+			    String seleniumHubPath = conf.get("selenium.hub.path", "/wd/hub");
+			    String seleniumHubProtocol = conf.get("selenium.hub.protocol", "http");
+			    URL seleniumHubUrl = new URL(seleniumHubProtocol, seleniumHubHost, seleniumHubPort, seleniumHubPath); 
+
+			    String seleniumGridDriver = conf.get("selenium.grid.driver","firefox");
+			    boolean enableHeadlessMode = conf.getBoolean("selenium.enable.headless", false);
+
+			    switch (seleniumGridDriver){
+				    case "firefox":
+					    driver = createFirefoxWebDriver(seleniumHubUrl, enableHeadlessMode);
+					    break;
+				    case "chrome":
+					    driver = createChromeWebDriver(seleniumHubUrl, enableHeadlessMode);
+					    break;
+				    case "random":
+					    driver = createRandomWebDriver(seleniumHubUrl, enableHeadlessMode);
+					    break;
+				    default:
+					    LOG.error("The Selenium Grid WebDriver choice {} is not available... defaulting to FirefoxDriver().", driverType);
+					    driver = createDefaultWebDriver(seleniumHubUrl, enableHeadlessMode); 
+					    break;
+			    }
+
+	    }
+    }catch (Exception e){
+	    if(e instanceof TimeoutException){
+		    LOG.debug("Selenium WebDriver: Timeout Exception: Capturing whatever loaded so far...");
+		    return driver;
+	    }
+	    cleanUpDriver(driver);
+	    throw new RuntimeException(e);
+    }
+
+  }
+
+  public static Capabilities createFirefoxWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode){
+    FirefoxOptions firefoxOptions = new FirefoxOptions();
+    if(enableHeadlessMode){
+	    firefoxOptions.setHeadless(true);
+    }
+    RemoteWebDriver driver = createRemoteWebDriver(seleniumHubUrl, firefoxOptions);
+    return driver;
+  }
+  
+  public static Capabilities createChromeWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode){
+    ChromeOptions = new ChromeOptions();
+    if(enableHeadlessMode){
+	    chromeOptions.setHeadless(true);
+    }
+    RemoteWebDriver driver = createRemoteWebDriver(seleniumHubUrl, firefoxOptions);
+    return driver;
+  }
+
+  public static Capabilities createRandomWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode){
+    // we consider a possibility of generating only 2 types of browsers: Firefox and Chrome only
+    Random r = new Random();
+    int min = 0;
+    // we have actually hardcoded the maximum number of types of web driver that can be created
+    // but this must be later moved to the configuration file in order to be able
+    // to randomly choose between much more types(ex: Edge, Opera, Safari)
+    int max = 1; // for 3 types, change to 2 and update the if-clause
+    int num =  r.nextInt((max - min) + 1) + min;
+    if(num == 0){
+    return createFirefoxWebDriver(seleniumHubUrl, enableHeadlessMode);
+    }
+    
+    return createChromeWebDriver(seleniumHubUrl, enableHeadlessMode); 
+  }
+
+  public static Capabilities createDefaultWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode){
+    return createFirefoxWebDriver(enableHeadlessMode);	  
+  }
+
+  public static RemoteWebDriver createRemoteWebDriver(URL url, Capabilities capabilities){
+    RemoteWebDriver driver = new RemoteWebDriver(url, capabilities);
+    return driver; 
+  }
+
 
   public static void cleanUpDriver(WebDriver driver) {
     if (driver != null) {
