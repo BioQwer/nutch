@@ -90,7 +90,6 @@
      <library name="selenium-chrome-driver-3.141.5.jar">
      <library name="selenium-edge-driver-3.141.5.jar">
      <library name="selenium-firefox-driver-3.141.5.jar">
-     <library name="selenium-htmlunit-driver-3.141.5.jar">
      <library name="selenium-ie-driver-3.141.5.jar">
      <library name="selenium-java-3.141.5.jar">
      <library name="selenium-leg-rc-3.141.5.jar">
