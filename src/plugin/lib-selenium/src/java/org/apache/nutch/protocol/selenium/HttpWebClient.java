@@ -279,7 +279,7 @@ public class HttpWebClient {
 					    break;
 				    default:
 					    LOG.error("The Selenium Grid WebDriver choice {} is not available... defaulting to FirefoxDriver().", driverType);
-					    driver = createDefaultWebDriver(seleniumHubUrl, enableHeadlessMode); 
+					    driver = createDefaultRemoteWebDriver(seleniumHubUrl, enableHeadlessMode); 
 					    break;
 			    }
 			    break;
@@ -352,11 +352,11 @@ public class HttpWebClient {
     return createFirefoxWebDriver(seleniumHubUrl, enableHeadlessMode);
     }
     
-    return createChromeWebDriver(seleniumHubUrl, enableHeadlessMode); 
+    return createChromeRemoteWebDriver(seleniumHubUrl, enableHeadlessMode); 
   }
 
-  public static RemoteWebDriver createDefaultWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode){
-    return createFirefoxWebDriver(seleniumHubUrl, enableHeadlessMode); 
+  public static RemoteWebDriver createDefaultRemoteWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode){
+    return createFirefoxRemoteWebDriver(seleniumHubUrl, enableHeadlessMode); 
   }
 
   public static void cleanUpDriver(WebDriver driver) {
