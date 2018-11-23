@@ -253,9 +253,11 @@ public class HttpWebClient {
 	    
 	    switch (driverType) {
 		    case "firefox":
+			    String geckoDriverPath = conf.get("selenium.grid.binary", "/root/geckodriver");
+			    driver = createFirefoxWebDriver(geckoDriverPath, enableHeadlessMode);
 			    break;
 		    case "chrome":
-			    String chromeDriverPath = conf.get("webdriver.chrome.driver", "/root/chromedriver");
+			    String chromeDriverPath = conf.get("selenium.grid.binary", "/root/chromedriver");
 			    driver = createChromeWebDriver(chromeDriverPath, enableHeadlessMode);
 			    break;
 		    case "remote":
@@ -305,6 +307,15 @@ public class HttpWebClient {
     return driver;
   }
 
+  public static WebDriver createFirefoxWebDriver(String firefoxDriverPath, boolean enableHeadlessMode){
+    System.setProperty("webdriver.gecko.driver", firefoxDriverPath);
+    FirefoxOptions firefoxOptions = new FirefoxOptions();
+    if(enableHeadlessMode){
+    	firefoxOptions.addArguments("--headless");
+    }
+    WebDriver driver = new FirefoxDriver(firefoxOptions);
+    return driver
+  }
 
   public static WebDriver createChromeWebDriver(String chromeDriverPath, boolean enableHeadlessMode){
     // if not specified, WebDriver will search your path for chromedriver
