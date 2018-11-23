@@ -349,7 +349,7 @@ public class HttpWebClient {
     if(enableHeadlessMode){
         operaOptions.addArguments("--headless");
     }   
-    WebDriver driver = new OperaDriver(chromeOptions);
+    WebDriver driver = new OperaDriver(operaOptions);
     return driver;
   }
 
