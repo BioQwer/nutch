@@ -302,8 +302,11 @@ public class HttpWebClient {
 	    driver.get(url);
     }catch (Exception e){
 	    if(e instanceof TimeoutException){
-		    LOG.debug("Selenium WebDriver: Timeout Exception: Capturing whatever loaded so far...");
+		    LOG.error("Selenium WebDriver: Timeout Exception: Capturing whatever loaded so far...");
 		    return driver;
+	    }
+	    else{
+	    	LOG.error(e.toString());
 	    }
 	    cleanUpDriver(driver);
 	    throw new RuntimeException(e);
@@ -435,7 +438,6 @@ public class HttpWebClient {
       // lib-htmlunit
     } catch (Exception e) {
       TemporaryFilesystem.getDefaultTmpFS().deleteTemporaryFiles();
-      // throw new RuntimeException(e);
       LOG.error("getHtmlPage(url, conf): " + e.toString());
       throw new RuntimeException(e);
     } finally {
