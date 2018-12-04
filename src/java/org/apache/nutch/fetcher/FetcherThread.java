@@ -295,43 +295,47 @@ public class FetcherThread extends Thread {
             Protocol protocol = this.protocolFactory.getProtocol(fit.u);
             BaseRobotRules rules = protocol.getRobotRules(fit.url, fit.datum,
                 robotsTxtContent);
-            if (robotsTxtContent != null) {
-              outputRobotsTxt(robotsTxtContent);
-              robotsTxtContent.clear();
-            }
-            if (!rules.isAllowed(fit.url.toString())) {
-              // unblock
-              ((FetchItemQueues) fetchQueues).finishFetchItem(fit, true);
-              LOG.info("Denied by robots.txt: {}", fit.url);
-              output(fit.url, fit.datum, null,
-                  ProtocolStatus.STATUS_ROBOTS_DENIED,
-                  CrawlDatum.STATUS_FETCH_GONE);
-              context.getCounter("FetcherStatus", "robots_denied").increment(1);
-              continue;
-            }
-            if (rules.getCrawlDelay() > 0) {
-              if (rules.getCrawlDelay() > maxCrawlDelay && maxCrawlDelay >= 0) {
+            Boolean ignoreRobots = this.conf.getBoolean("ignore.robots.txt", "false");
+            if (!ignoreRobots){
+              if (robotsTxtContent != null) {
+                outputRobotsTxt(robotsTxtContent);
+                robotsTxtContent.clear();
+              }
+              if (!rules.isAllowed(fit.url.toString())) {
                 // unblock
                 ((FetchItemQueues) fetchQueues).finishFetchItem(fit, true);
-                LOG.info("Crawl-Delay for {} too long ({}), skipping", fit.url,
-                    rules.getCrawlDelay());
+                LOG.info("Denied by robots.txt: {}", fit.url);
                 output(fit.url, fit.datum, null,
                     ProtocolStatus.STATUS_ROBOTS_DENIED,
                     CrawlDatum.STATUS_FETCH_GONE);
-                context.getCounter("FetcherStatus",
-                    "robots_denied_maxcrawldelay").increment(1);
+                context.getCounter("FetcherStatus", "robots_denied").increment(1);
                 continue;
-              } else {
-                FetchItemQueue fiq = ((FetchItemQueues) fetchQueues)
-                    .getFetchItemQueue(fit.queueID);
-                fiq.crawlDelay = rules.getCrawlDelay();
-                if (LOG.isDebugEnabled()) {
-                  LOG.debug("Crawl delay for queue: " + fit.queueID
-                      + " is set to " + fiq.crawlDelay
-                      + " as per robots.txt. url: " + fit.url);
+              }
+              if (rules.getCrawlDelay() > 0) {
+                if (rules.getCrawlDelay() > maxCrawlDelay && maxCrawlDelay >= 0) {
+                  // unblock
+                  ((FetchItemQueues) fetchQueues).finishFetchItem(fit, true);
+                  LOG.info("Crawl-Delay for {} too long ({}), skipping", fit.url,
+                      rules.getCrawlDelay());
+                  output(fit.url, fit.datum, null,
+                      ProtocolStatus.STATUS_ROBOTS_DENIED,
+                      CrawlDatum.STATUS_FETCH_GONE);
+                  context.getCounter("FetcherStatus",
+                      "robots_denied_maxcrawldelay").increment(1);
+                  continue;
+                } else {
+                  FetchItemQueue fiq = ((FetchItemQueues) fetchQueues)
+                      .getFetchItemQueue(fit.queueID);
+                  fiq.crawlDelay = rules.getCrawlDelay();
+                  if (LOG.isDebugEnabled()) {
+                    LOG.debug("Crawl delay for queue: " + fit.queueID
+                        + " is set to " + fiq.crawlDelay
+                        + " as per robots.txt. url: " + fit.url);
+                  }
                 }
               }
             }
+            
             ProtocolOutput output = protocol.getProtocolOutput(fit.url,
                 fit.datum);
             ProtocolStatus status = output.getStatus();
