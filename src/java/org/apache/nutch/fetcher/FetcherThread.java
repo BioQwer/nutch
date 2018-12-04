@@ -295,7 +295,7 @@ public class FetcherThread extends Thread {
             Protocol protocol = this.protocolFactory.getProtocol(fit.u);
             BaseRobotRules rules = protocol.getRobotRules(fit.url, fit.datum,
                 robotsTxtContent);
-            Boolean ignoreRobots = this.conf.getBoolean("ignore.robots.txt", "false");
+            Boolean ignoreRobots = this.conf.getBoolean("ignore.robots.txt", false);
             if (!ignoreRobots){
               if (robotsTxtContent != null) {
                 outputRobotsTxt(robotsTxtContent);
