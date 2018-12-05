@@ -293,10 +293,12 @@ public class FetcherThread extends Thread {
             }
             redirecting = false;
             Protocol protocol = this.protocolFactory.getProtocol(fit.u);
-            BaseRobotRules rules = protocol.getRobotRules(fit.url, fit.datum,
-                robotsTxtContent);
             Boolean ignoreRobots = this.conf.getBoolean("ignore.robots.txt", false);
             if (!ignoreRobots){
+
+              BaseRobotRules rules = protocol.getRobotRules(fit.url, fit.datum,
+                  robotsTxtContent);
+            
               if (robotsTxtContent != null) {
                 outputRobotsTxt(robotsTxtContent);
                 robotsTxtContent.clear();
@@ -334,6 +336,9 @@ public class FetcherThread extends Thread {
                   }
                 }
               }
+            }
+            else{
+              LOG.info("robots.txt not considered!");
             }
             
             ProtocolOutput output = protocol.getProtocolOutput(fit.url,
