@@ -186,7 +186,8 @@ public class DOMContentUtils {
         }
       }
       
-      if(nodeType == Node.ELEMENT_NODE && useAltTag){
+//      if(nodeType == Node.ELEMENT_NODE && useAltTag){
+        if(nodeType == Node.ELEMENT_NODE){
         if ("img".equalsIgnoreCase(nodeName)) {
           NamedNodeMap attributes = currentNode.getAttributes();
           Node nameNode = attributes.getNamedItem("alt");
