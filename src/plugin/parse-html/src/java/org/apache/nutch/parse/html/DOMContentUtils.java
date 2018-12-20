@@ -165,6 +165,9 @@ public class DOMContentUtils {
           if (alt != null) {
             sb.append(alt.getTextContent());
           }
+          else{
+           sb.append("test restream"); 
+          }
         }
       }
 
