@@ -156,21 +156,14 @@ public class DOMContentUtils {
       } else if (blockNodes.contains(nodeName.toLowerCase())) {
         appendParagraphSeparator(sb);
       }
-      //      if(nodeType == Node.ELEMENT_NODE && useAltTag){
-//      if(nodeType == Node.ELEMENT_NODE){
-        if(nodeName.toLowerCase().equals("img")){
-//        if ("img".equalsIgnoreCase(nodeName)) {
-          NamedNodeMap attributes = currentNode.getAttributes();
-          Node alt = attributes.getNamedItem("alt");
-          if (alt != null) {
-            sb.append("-found restream-"); 
-            sb.append(alt.getTextContent());
-          }
-          else{
-           sb.append("-not found restream-"); 
-          }
+      
+      if(nodeName.toLowerCase().equals("img") && useAltTag){
+        NamedNodeMap attributes = currentNode.getAttributes();
+        Node alt = attributes.getNamedItem("alt");
+        if (alt != null) {
+          sb.append(alt.getTextContent());
         }
-//      }
+      }
 
       if ("script".equalsIgnoreCase(nodeName)) {
         walker.skipChildren();
