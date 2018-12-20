@@ -186,13 +186,15 @@ public class DOMContentUtils {
         }
       }
       
+      
 //      if(nodeType == Node.ELEMENT_NODE && useAltTag){
         if(nodeType == Node.ELEMENT_NODE){
-        if ("img".equalsIgnoreCase(nodeName)) {
+          if(nodeName.toLowerCase().equals("img")){
+//        if ("img".equalsIgnoreCase(nodeName)) {
           NamedNodeMap attributes = currentNode.getAttributes();
-          Node nameNode = attributes.getNamedItem("alt");
-          if (nameNode != null) {
-            sb.append(nameNode.getTextContent());
+          Node alt = attributes.getNamedItem("alt");
+          if (alt != null) {
+            sb.append(alt.getTextContent());
           }
         }
       }
