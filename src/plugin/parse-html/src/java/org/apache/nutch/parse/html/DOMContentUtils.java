@@ -157,7 +157,7 @@ public class DOMContentUtils {
         appendParagraphSeparator(sb);
       }
       //      if(nodeType == Node.ELEMENT_NODE && useAltTag){
-      if(nodeType == Node.ELEMENT_NODE){
+//      if(nodeType == Node.ELEMENT_NODE){
         if(nodeName.toLowerCase().equals("img")){
 //        if ("img".equalsIgnoreCase(nodeName)) {
           NamedNodeMap attributes = currentNode.getAttributes();
@@ -169,7 +169,7 @@ public class DOMContentUtils {
            sb.append("test restream"); 
           }
         }
-      }
+//      }
 
       if ("script".equalsIgnoreCase(nodeName)) {
         walker.skipChildren();
