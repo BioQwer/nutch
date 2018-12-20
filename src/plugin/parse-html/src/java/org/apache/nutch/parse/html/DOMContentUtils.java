@@ -143,7 +143,7 @@ public class DOMContentUtils {
       boolean abortOnNestedAnchors, int anchorDepth) {
     boolean abort = false;
     NodeWalker walker = new NodeWalker(node);
-    boolean useAltTag = conf.getBoolean("image.alt.tag", False);
+    boolean useAltTag = conf.getBoolean("image.alt.tag", false);
     while (walker.hasNext()) {
 
       Node currentNode = walker.nextNode();
