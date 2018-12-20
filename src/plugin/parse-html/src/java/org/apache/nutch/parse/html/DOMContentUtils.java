@@ -163,10 +163,11 @@ public class DOMContentUtils {
           NamedNodeMap attributes = currentNode.getAttributes();
           Node alt = attributes.getNamedItem("alt");
           if (alt != null) {
+            sb.append("-found restream-"); 
             sb.append(alt.getTextContent());
           }
           else{
-           sb.append("test restream"); 
+           sb.append("-not found restream-"); 
           }
         }
 //      }
