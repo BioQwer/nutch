@@ -143,7 +143,7 @@ public class DOMContentUtils {
       boolean abortOnNestedAnchors, int anchorDepth) {
     boolean abort = false;
     NodeWalker walker = new NodeWalker(node);
-
+    boolean useAltTag = conf.getBoolean("image.alt.tag", False);
     while (walker.hasNext()) {
 
       Node currentNode = walker.nextNode();
@@ -183,6 +183,16 @@ public class DOMContentUtils {
           sb.append(text);
         } else {
           appendParagraphSeparator(sb);
+        }
+      }
+      
+      if(nodeType == Node.ELEMENT_NODE && useAltTag){
+        if ("img".equalsIgnoreCase(nodeName)) {
+          NamedNodeMap attributes = currentNode.getAttributes();
+          Node nameNode = attributes.getNamedItem("alt");
+          if (nameNode != null) {
+            sb.append(nameNode.getTextContent());
+          }
         }
       }
     }
