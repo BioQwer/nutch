@@ -192,9 +192,9 @@ public class HttpWebClient {
       firefoxOptions.setHeadless(true);
     }
     if(optimized) {
-    	firefoxOptions.addPreference('permissions.default.stylesheet', 2);
-    	firefoxOptions.addPreference('permissions.default.image', 2);
-    	firefoxOptions.addPreference('dom.ipc.plugins.enabled.libflashplayer.so', false);
+    	firefoxOptions.addPreference("permissions.default.stylesheet", 2);
+    	firefoxOptions.addPreference("permissions.default.image", 2);
+    	firefoxOptions.addPreference("dom.ipc.plugins.enabled.libflashplayer.so", "false");
     }
     RemoteWebDriver driver = new RemoteWebDriver(seleniumHubUrl,
         firefoxOptions);
