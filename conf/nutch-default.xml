@@ -2534,6 +2534,13 @@ visit https://wiki.apache.org/nutch/SimilarityScoringFilter-->
 </property>
 
 <property>
+  <name>selenium.optimized</name>
+  <value>false</value>
+  <description>If set to true, some optimization are applied to the firefox webdriver: no image loading,
+    using disk cache, no css load</description>
+</property>
+
+<property>
   <name>selenium.hub.port</name>
   <value>4444</value>
   <description>Selenium Hub Location connection port</description>
