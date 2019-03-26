@@ -25,6 +25,7 @@ import java.io.OutputStream;
 import java.net.URL;
 import java.util.concurrent.TimeUnit;
 import java.util.Random;
+import java.util.HashMap;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
@@ -106,7 +107,7 @@ public class HttpWebClient {
 					driver = createFirefoxRemoteWebDriver(seleniumHubUrl, enableHeadlessMode, optimized);
 					break;
 				case "chrome":
-					driver = createChromeRemoteWebDriver(seleniumHubUrl, enableHeadlessMode);
+					driver = createChromeRemoteWebDriver(seleniumHubUrl, enableHeadlessMode, optimized);
 					break;
 				case "random":
 					driver = createRandomRemoteWebDriver(seleniumHubUrl, enableHeadlessMode, optimized);
@@ -201,11 +202,30 @@ public class HttpWebClient {
     return driver;
   }
 
-	public static RemoteWebDriver createChromeRemoteWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode) {
+	public static RemoteWebDriver createChromeRemoteWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode, boolean optimized) {
 		ChromeOptions chromeOptions = new ChromeOptions();
 		if (enableHeadlessMode) {
 			chromeOptions.setHeadless(true);
 		}
+		HashMap<String, Object> prefs = new HashMap<String, Integer>();
+		if (optimized) {
+			prefs={"profile.managed_default_content_settings.images": 2, 
+					"disk-cache-size": 4096,
+					"profile.managed_default_content_settings.stylesheets":2,
+			        "profile.managed_default_content_settings.cookies":2,
+			        "profile.managed_default_content_settings.javascript":1,
+			        "profile.managed_default_content_settings.plugins":1,
+			        "profile.managed_default_content_settings.popups":2,
+			        "profile.managed_default_content_settings.geolocation":2,
+			        "profile.managed_default_content_settings.media_stream":2
+			        };
+			chromeOptions.add_experimental_option("prefs", prefs);
+			chromeOptions.add_argument("--disable-extensions");
+			chromeOptions.add_argument("disable-infobars");
+			chromeOptions.add_arguments("--disable-default-apps");
+			chromeOptions.add_argument("--enable-accelerated-2d-canvas");
+		}
+		
 		RemoteWebDriver driver = new RemoteWebDriver(seleniumHubUrl, chromeOptions);
 		return driver;
 	}
@@ -229,7 +249,7 @@ public class HttpWebClient {
 			return createFirefoxRemoteWebDriver(seleniumHubUrl, enableHeadlessMode, optimized);
 		}
 
-		return createChromeRemoteWebDriver(seleniumHubUrl, enableHeadlessMode);
+		return createChromeRemoteWebDriver(seleniumHubUrl, enableHeadlessMode, optimized);
 	}
 
 	public static RemoteWebDriver createDefaultRemoteWebDriver(URL seleniumHubUrl, boolean enableHeadlessMode) {
