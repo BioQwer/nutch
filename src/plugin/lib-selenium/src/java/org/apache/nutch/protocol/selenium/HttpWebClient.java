@@ -219,11 +219,11 @@ public class HttpWebClient {
 			prefs.put("profile.managed_default_content_settings.geolocation", 2);
 			prefs.put("profile.managed_default_content_settings.media_stream", 2);
 
-			chromeOptions.add_experimental_option("prefs", prefs);
-			chromeOptions.add_argument("--disable-extensions");
-			chromeOptions.add_argument("disable-infobars");
-			chromeOptions.add_arguments("--disable-default-apps");
-			chromeOptions.add_argument("--enable-accelerated-2d-canvas");
+			chromeOptions.setExperimentalOption("prefs", prefs);
+			chromeOptions.addArguments("--disable-extensions");
+			chromeOptions.addArguments("disable-infobars");
+			chromeOptions.addArguments("--disable-default-apps");
+			chromeOptions.addArguments("--enable-accelerated-2d-canvas");
 		}
 		
 		RemoteWebDriver driver = new RemoteWebDriver(seleniumHubUrl, chromeOptions);
