@@ -99,7 +99,7 @@ public class HttpWebClient {
 				URL seleniumHubUrl = new URL(seleniumHubProtocol, seleniumHubHost, seleniumHubPort, seleniumHubPath);
 
 				String seleniumGridDriver = conf.get("selenium.grid.driver", "firefox");
-				boolean optimized = conf.get("selenium.optimized", false);
+				boolean optimized = conf.getBoolean("selenium.optimized", false);
 
 				switch (seleniumGridDriver) {
 				case "firefox":
