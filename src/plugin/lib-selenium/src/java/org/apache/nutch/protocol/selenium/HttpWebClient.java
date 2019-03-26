@@ -207,18 +207,18 @@ public class HttpWebClient {
 		if (enableHeadlessMode) {
 			chromeOptions.setHeadless(true);
 		}
-		HashMap<String, Object> prefs = new HashMap<String, Integer>();
+		HashMap<String, Object> prefs = new HashMap<String, Object>(); 
 		if (optimized) {
-			prefs={"profile.managed_default_content_settings.images": 2, 
-					"disk-cache-size": 4096,
-					"profile.managed_default_content_settings.stylesheets":2,
-			        "profile.managed_default_content_settings.cookies":2,
-			        "profile.managed_default_content_settings.javascript":1,
-			        "profile.managed_default_content_settings.plugins":1,
-			        "profile.managed_default_content_settings.popups":2,
-			        "profile.managed_default_content_settings.geolocation":2,
-			        "profile.managed_default_content_settings.media_stream":2
-			        };
+			prefs.put("profile.managed_default_content_settings.images", 2); 
+			prefs.put("disk-cache-size", 4096);
+			prefs.put("profile.managed_default_content_settings.stylesheets", 2);
+			prefs.put("profile.managed_default_content_settings.cookies", 2);
+			prefs.put("profile.managed_default_content_settings.javascript", 1);
+			prefs.put("profile.managed_default_content_settings.plugins", 1);
+			prefs.put("profile.managed_default_content_settings.popups", 2);
+			prefs.put("profile.managed_default_content_settings.geolocation", 2);
+			prefs.put("profile.managed_default_content_settings.media_stream", 2);
+
 			chromeOptions.add_experimental_option("prefs", prefs);
 			chromeOptions.add_argument("--disable-extensions");
 			chromeOptions.add_argument("disable-infobars");
