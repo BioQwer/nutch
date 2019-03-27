@@ -101,6 +101,7 @@ public class HttpWebClient {
 
 				String seleniumGridDriver = conf.get("selenium.grid.driver", "firefox");
 				boolean optimized = conf.getBoolean("selenium.optimized", false);
+				LOG.info("Selenium optimized: {}", optimized);
 
 				switch (seleniumGridDriver) {
 				case "firefox":
