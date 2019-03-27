@@ -87,14 +87,32 @@
        <export name="*"/>
      </library>
      <library name="selenium-api-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-chrome-driver-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-edge-driver-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-firefox-driver-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-ie-driver-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-java-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-leg-rc-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-remote-driver-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-safari-driver-3.141.5.jar">
+      <export name="*"/>
+     </library>
      <library name="selenium-support-3.141.5.jar">
        <export name="*"/>
      </library>
